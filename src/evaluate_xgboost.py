@@ -44,6 +44,7 @@ def stratified_sample(df, n_samples=10000, random_state=42):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, required=True)
+    parser.add_argument('--split', type=str, default='valid', choices=['valid', 'test'], help='Evaluation split to use (default: valid)')
     parser.add_argument('--sample_size', type=int, default=50000, help='Number of users to sample for evaluation')
     parser.add_argument('--use_stratified', action='store_true', help='Use stratified sampling by history length (maintains distribution)')
     args = parser.parse_args()
@@ -60,7 +61,7 @@ def main():
         'cell_phones_and_accessories': 'meta_Cell_Phones_and_Accessories.jsonl.gz'
     }
     
-    valid_file = os.path.join(data_dir, f'valid_{dataset_name}_merged.csv')
+    eval_file = os.path.join(data_dir, f'{args.split}_{dataset_name}_merged.csv')
     meta_file = os.path.join(data_dir, meta_mapping[dataset_name])
     model_path = os.path.join(script_dir, f'xgboost_pure_{dataset_name}_best.json')
     
@@ -74,19 +75,19 @@ def main():
     model.load_model(model_path)
     
     # 2. Load Evaluation Data
-    print("Loading validation set...")
-    valid_df = pd.read_csv(valid_file)
-    if len(valid_df) > args.sample_size:
+    print(f"Loading {args.split} set...")
+    eval_df = pd.read_csv(eval_file)
+    if len(eval_df) > args.sample_size:
         if args.use_stratified:
-            print(f"Stratified sampling {args.sample_size:,} users (out of {len(valid_df):,}) by history length...")
+            print(f"Stratified sampling {args.sample_size:,} users (out of {len(eval_df):,}) by history length...")
             print("This maintains the same distribution of short/medium/long history users as the full dataset.")
-            valid_df = stratified_sample(valid_df, n_samples=args.sample_size, random_state=42)
+            eval_df = stratified_sample(eval_df, n_samples=args.sample_size, random_state=42)
             # Show distribution
-            hist_lens = valid_df['history'].apply(lambda x: len(str(x).split()) if pd.notnull(x) else 0)
+            hist_lens = eval_df['history'].apply(lambda x: len(str(x).split()) if pd.notnull(x) else 0)
             print(f"Sample history length distribution: min={hist_lens.min()}, max={hist_lens.max()}, mean={hist_lens.mean():.1f}")
         else:
-            print(f"Random sampling {args.sample_size:,} users (out of {len(valid_df):,}) for evaluation...")
-            valid_df = valid_df.sample(n=args.sample_size, random_state=42)
+            print(f"Random sampling {args.sample_size:,} users (out of {len(eval_df):,}) for evaluation...")
+            eval_df = eval_df.sample(n=args.sample_size, random_state=42)
     
     # 3. Prepare Item Catalog Features
     print("Preparing item catalog features...")
@@ -112,7 +113,7 @@ def main():
     catalog_raw = item_catalog[feature_names[1:]].values
     
     # 4. Optimized Batch Evaluation
-    print(f"Starting Highly Optimized Evaluation for {len(valid_df)} users...")
+    print(f"Starting Highly Optimized Evaluation for {len(eval_df)} users...")
     hit_count = 0
     ndcg_sum = 0
     total_users = 0
@@ -121,9 +122,9 @@ def main():
     item_asin_list = item_catalog['parent_asin'].values
     item_to_idx = {asin: idx for idx, asin in enumerate(item_asin_list)}
     
-    user_batch_size = 50 # Using 200 users per batch for stability on 110k item catalogs
-    for i in tqdm(range(0, len(valid_df), user_batch_size)):
-        batch_df = valid_df.iloc[i : i + user_batch_size]
+    user_batch_size = 50 # Using 50 users per batch for stability on 110k item catalogs
+    for i in tqdm(range(0, len(eval_df), user_batch_size)):
+        batch_df = eval_df.iloc[i : i + user_batch_size]
         current_batch_size = len(batch_df)
         
         # Vectorized expansion of items for batch
@@ -172,7 +173,7 @@ def main():
     hit_at_k = hit_count / total_users if total_users > 0 else 0
     ndcg_at_k = ndcg_sum / total_users
     
-    print(f"\n✅ Results for {dataset_name}:")
+    print(f"\n✅ Results for {dataset_name} ({args.split} set):")
     print(f"Hit@10:  {hit_at_k:.4f}")
     print(f"NDCG@10: {ndcg_at_k:.4f}")
 

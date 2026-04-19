@@ -20,6 +20,7 @@ def main():
     parser.add_argument("--eval_every", type=int, default=1)
     parser.add_argument("--patience", type=int, default=5)
     parser.add_argument("--checkpoint", type=str, default=None)
+    parser.add_argument("--test_split", action="store_true", help="Evaluate on test set after training and report final results.")
     args = parser.parse_args()
 
     # Device Handling
@@ -102,6 +103,23 @@ def main():
                 break
 
     print(f"\nFinal Best Hit@10: {best_hit:.4f}")
+    
+    # Test Set Evaluation (if requested)
+    if args.test_split:
+        print("\n" + "="*50)
+        print("🧪 EVALUATING ON TEST SET")
+        print("="*50)
+        test_file = os.path.join(script_dir, "..", "data", f"test_{args.dataset}_merged.csv")
+        if os.path.exists(test_file):
+            test_dataset = BPREvalDataset(test_file, user_vocab, item_vocab)
+            test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
+            test_hit, test_ndcg, total_test, _ = evaluate_bpr(model, test_loader, device=device, k=10)
+            print(f"\n✅ TEST SET RESULTS:")
+            print(f"Hit@10:  {test_hit:.8f}")
+            print(f"NDCG@10: {test_ndcg:.8f}")
+            print(f"Total users evaluated: {total_test}")
+        else:
+            print(f"⚠️  Test file not found: {test_file}")
 
 if __name__ == "__main__":
     main()
