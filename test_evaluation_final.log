@@ -1,0 +1,47 @@
+==========================================
+TEST SET EVALUATION - Best Models
+Running from: /Users/rkaramyan/hybrid_recsys_capstone
+==========================================
+
+⚠️  Using grid search checkpoints (no retraining)
+==========================================
+
+🎮 VIDEO GAMES DATASET
+==========================================
+Evaluating SASRec (Best Config)...
+/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py:515: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/NestedTensorImpl.cpp:182.)
+  output = torch._nested_tensor_from_mask(
+Using device: cpu
+Dataset: video_games | Split: test
+Checkpoint: src/grid_search_video_games_1.pth
+Evaluated samples: 94417
+Hits@10 (raw): 8374
+Hit@10:  0.08869166
+NDCG@10: 0.04549253
+
+Evaluating BPR (Best Config)...
+Using device: mps
+Dataset: video_games | Split: test
+Checkpoint: src/grid_search_bpr_video_games_1.pth
+Loading vocab for video_games...
+Users: 94762 | Items: 25528
+Loading model...
+Traceback (most recent call last):
+  File "/Users/rkaramyan/hybrid_recsys_capstone/src/bpr_evaluate_standalone.py", line 82, in <module>
+    main()
+  File "/Users/rkaramyan/hybrid_recsys_capstone/src/bpr_evaluate_standalone.py", line 58, in main
+    model.load_state_dict(state_dict)
+  File "/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 2624, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for BPRMF:
+	size mismatch for user_embedding.weight: copying a param with shape torch.Size([94762, 64]) from checkpoint, the shape in current model is torch.Size([94762, 128]).
+	size mismatch for item_embedding.weight: copying a param with shape torch.Size([25528, 64]) from checkpoint, the shape in current model is torch.Size([25528, 128]).
+
+Evaluating XGBoost (Best Config)...
+Loading XGBoost model for video_games...
+Loading test set...
+Random sampling 50,000 users (out of 94,762) for evaluation...
+Preparing item catalog features...
+Loading metadata from /Users/rkaramyan/hybrid_recsys_capstone/src/../data/meta_Video_Games.jsonl.gz...
+Starting Highly Optimized Evaluation for 50000 users...
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 1/1000 [00:14<4:04:22, 14.68s/it]  0%|          | 2/1000 [00:28<3:59:04, 14.37s/it]  0%|          | 3/1000 [00:42<3:56:43, 14.25s/it]  0%|          | 4/1000 [00:57<4:00:19, 14.48s/it]  0%|          | 5/1000 [01:11<3:56:39, 14.27s/it]

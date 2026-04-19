@@ -1,12 +1,9 @@
+/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py:515: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/NestedTensorImpl.cpp:182.)
+  output = torch._nested_tensor_from_mask(
 Using device: cpu
 Dataset: video_games | Split: test
-Checkpoint: src/sasrec_video_games.pth
-Traceback (most recent call last):
-  File "/Users/rkaramyan/hybrid_recsys_capstone/src/sasrec_evaluate.py", line 191, in <module>
-    main()
-  File "/Users/rkaramyan/hybrid_recsys_capstone/src/sasrec_evaluate.py", line 181, in main
-    model.load_state_dict(state_dict)
-  File "/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 2624, in load_state_dict
-    raise RuntimeError(
-RuntimeError: Error(s) in loading state_dict for SASRec:
-	Missing key(s) in state_dict: "transformer.layers.2.self_attn.in_proj_weight", "transformer.layers.2.self_attn.in_proj_bias", "transformer.layers.2.self_attn.out_proj.weight", "transformer.layers.2.self_attn.out_proj.bias", "transformer.layers.2.linear1.weight", "transformer.layers.2.linear1.bias", "transformer.layers.2.linear2.weight", "transformer.layers.2.linear2.bias", "transformer.layers.2.norm1.weight", "transformer.layers.2.norm1.bias", "transformer.layers.2.norm2.weight", "transformer.layers.2.norm2.bias". 
+Checkpoint: src/grid_search_video_games_1.pth
+Evaluated samples: 94417
+Hits@10 (raw): 8374
+Hit@10:  0.08869166
+NDCG@10: 0.04549253

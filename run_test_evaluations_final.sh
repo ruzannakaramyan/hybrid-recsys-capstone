@@ -34,14 +34,14 @@ echo "Evaluating SASRec (Best Config)..."
     2>&1 | tee test_eval_video_games_sasrec.txt
 
 # BPR Best: hidden_dim=128, lr=0.0005, weight_decay=1e-5
-# Grid Search Trial 1 -> grid_search_bpr_video_games_1.pth (30MB, dim=128)
+# Grid Search Trial 3 -> grid_search_bpr_video_games_3.pth (59MB, dim=128)
 echo ""
 echo "Evaluating BPR (Best Config)..."
 .venv/bin/python src/bpr_evaluate_standalone.py \
     --dataset video_games \
     --split test \
     --hidden_dim 128 \
-    --checkpoint src/grid_search_bpr_video_games_1.pth \
+    --checkpoint src/grid_search_bpr_video_games_3.pth \
     2>&1 | tee test_eval_video_games_bpr.txt
 
 # XGBoost Best: max_depth=8, n_estimators=300
@@ -115,14 +115,14 @@ echo "Evaluating SASRec (Best Config)..."
     2>&1 | tee test_eval_cell_phones_sasrec.txt
 
 # BPR Best: hidden_dim=128, lr=0.0005, weight_decay=0.001
-# Grid Search Trial 0 -> grid_search_bpr_cell_phones_and_accessories_0.pth (125MB, dim=128)
+# Grid Search Trial 4 -> grid_search_bpr_cell_phones_and_accessories_4.pth (125MB, dim=128)
 echo ""
 echo "Evaluating BPR (Best Config)..."
 .venv/bin/python src/bpr_evaluate_standalone.py \
     --dataset cell_phones_and_accessories \
     --split test \
     --hidden_dim 128 \
-    --checkpoint src/grid_search_bpr_cell_phones_and_accessories_0.pth \
+    --checkpoint src/grid_search_bpr_cell_phones_and_accessories_4.pth \
     2>&1 | tee test_eval_cell_phones_bpr.txt
 
 # XGBoost Best: max_depth=8, n_estimators=300
