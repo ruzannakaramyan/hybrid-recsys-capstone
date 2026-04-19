@@ -1,1 +1,23 @@
-./run_test_evaluations.sh: line 41: 1e-5: command not found
+Using device: mps
+Loading vocab for video_games...
+Users: 94762 | Items: 25528
+
+Starting BPR Training...
+Epoch [1/1] | Batch [0/611] | Loss: 0.6932
+Epoch [1/1] | Batch [200/611] | Loss: 0.6931
+Epoch [1/1] | Batch [400/611] | Loss: 0.6921
+Epoch [1/1] | Batch [600/611] | Loss: 0.6784
+--- Epoch 1 Completed | Avg Loss: 0.6909 ---
+Validation @ Epoch 1 | Hit@10: 0.0210 | NDCG@10: 0.0103
+🏆 New Best Hit@10! Model saved to src/bpr_video_games.pth
+
+Final Best Hit@10: 0.0210
+
+==================================================
+🧪 EVALUATING ON TEST SET
+==================================================
+
+✅ TEST SET RESULTS:
+Hit@10:  0.01748626
+NDCG@10: 0.00882492
+Total users evaluated: 94417
