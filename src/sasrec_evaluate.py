@@ -5,7 +5,7 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-from model import SASRec
+from sasrec_model import SASRec
 
 
 def build_vocab_from_train(train_csv_path):

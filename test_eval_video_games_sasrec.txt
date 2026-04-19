@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/rkaramyan/hybrid_recsys_capstone/src/sasrec_evaluate.py", line 8, in <module>
+    from model import SASRec
+ModuleNotFoundError: No module named 'model'

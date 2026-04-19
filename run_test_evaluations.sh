@@ -2,8 +2,13 @@
 # Run best model configs on TEST set for all datasets
 # This provides the final unbiased evaluation metrics
 
+# Change to repo root
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
 echo "=========================================="
 echo "TEST SET EVALUATION - Best Models"
+echo "Running from: $(pwd)"
 echo "=========================================="
 
 # ===== VIDEO GAMES =====

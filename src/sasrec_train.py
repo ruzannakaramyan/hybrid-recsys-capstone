@@ -6,8 +6,8 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 
 from dataset import SequentialDataset
-from model import SASRec
-from evaluate import evaluate, EvalDataset, build_vocab_from_train
+from sasrec_model import SASRec
+from sasrec_evaluate import evaluate, EvalDataset, build_vocab_from_train
 
 
 def main():
