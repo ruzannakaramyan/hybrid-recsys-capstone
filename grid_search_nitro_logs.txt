@@ -1,0 +1,10 @@
+=========================================
+Starting Grid Search for: video_games
+=========================================
+./run_remaining_grid_searches.sh: line 6: 97512 Terminated: 15          /Users/rkaramyan/hybrid_recsys_capstone/.venv/bin/python -u src/grid_search.py --dataset "$ds" --num_samples 12 --epochs 50 >> grid_search_all_logs.txt 2>&1
+Finished Grid Search for: video_games
+=========================================
+Starting Grid Search for: cell_phones_and_accessories
+=========================================
+./run_remaining_grid_searches.sh: line 6: 99410 Terminated: 15          /Users/rkaramyan/hybrid_recsys_capstone/.venv/bin/python -u src/grid_search.py --dataset "$ds" --num_samples 12 --epochs 50 >> grid_search_all_logs.txt 2>&1
+Finished Grid Search for: cell_phones_and_accessories

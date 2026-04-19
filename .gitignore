@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Data files (too large)
+data/*.parquet
+data/*.csv
+data/*.jsonl.gz
+
+# Model checkpoints (too large)
+*.pth
+*.pt
+src/*.pth
+src/*.pt
+src/grid_search_*.pth
+src/bpr_*.pth
+src/sasrec_*.pth
+src/*.json
+
+# Logs (keep structure, ignore content if needed, but we'll include key ones)
+# Logs are included for documentation
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Large output files
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Temporary files
+tmp/
+temp/
+*.tmp
