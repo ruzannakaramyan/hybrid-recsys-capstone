@@ -9,7 +9,18 @@ class SASRec(nn.Module):
         if self.use_llm:
             llm_dim = llm_embeds.shape[1]
             self.item_embedding = nn.Embedding.from_pretrained(llm_embeds, freeze=False, padding_idx=0)
-            self.projection = nn.Linear(llm_dim, hidden_dim)
+            # Better projection: multi-layer with residual-like structure
+            self.projection = nn.Sequential(
+                nn.Linear(llm_dim, 256),
+                nn.LayerNorm(256),
+                nn.ReLU(),
+                nn.Dropout(p=dropout_rate),
+                nn.Linear(256, 128),
+                nn.LayerNorm(128),
+                nn.ReLU(),
+                nn.Dropout(p=dropout_rate),
+                nn.Linear(128, hidden_dim)
+            )
         else:
             self.item_embedding = nn.Embedding(vocab_size, hidden_dim, padding_idx=0)
             
@@ -36,6 +47,8 @@ class SASRec(nn.Module):
         items = self.item_embedding(x)
         if self.use_llm:
             items = self.projection(items)
+            # Scale down to prevent variance explosion from multi-layer projection
+            items = items * 0.5
 
         x = items + self.position_embedding(positions)
         x = self.layer_norm(x)
@@ -52,7 +65,7 @@ class SASRec(nn.Module):
         final_state = out[torch.arange(batch_size), lengths]
 
         if self.use_llm:
-            all_projected = self.projection(self.item_embedding.weight)
+            all_projected = self.projection(self.item_embedding.weight) * 0.5
             logits = final_state @ all_projected.T
         else:
             logits = final_state @ self.item_embedding.weight.T

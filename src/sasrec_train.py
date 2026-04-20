@@ -29,6 +29,7 @@ def main():
     parser.add_argument("--dropout", type=float, default=0.2, help="Dropout rate.")
     parser.add_argument("--use_llm_embeddings", action="store_true", help="Initialize item matrix with LLM embeddings.")
     parser.add_argument("--freeze_emb_epochs", type=int, default=0, help="Freeze LLM embeddings for first N epochs, then unfreeze (two-phase training). 0 = never freeze.")
+    parser.add_argument("--llm_lr_factor", type=float, default=0.5, help="LR multiplier when unfreezing LLM embeddings (default: 0.5)")
     parser.add_argument("--weight_decay", type=float, default=1e-4, help="L2 weight decay for Adam optimizer.")
     parser.add_argument("--lr_scheduler", action="store_true", help="Enable cosine annealing LR scheduler.")
     parser.add_argument(
@@ -108,8 +109,10 @@ def main():
             elif epoch == args.freeze_emb_epochs:
                 print(f"Phase 2: Unfreezing LLM embeddings for fine-tuning...")
                 model.item_embedding.weight.requires_grad_(True)
-                # Reset optimizer so unfrozen params get fresh momentum state
-                optimizer = optim.Adam(model.parameters(), lr=args.learning_rate * 0.1, weight_decay=args.weight_decay)
+                # Reset optimizer with adjusted LR - less aggressive than before
+                new_lr = args.learning_rate * args.llm_lr_factor
+                print(f"Adjusting learning rate to {new_lr:.6f} for fine-tuning phase")
+                optimizer = optim.Adam(model.parameters(), lr=new_lr, weight_decay=args.weight_decay)
 
         model.train()
         total_loss = 0.0
@@ -122,6 +125,8 @@ def main():
             loss = criterion(logits, targets)
 
             loss.backward()
+            # Gradient clipping for stability with LLM embeddings
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
             total_loss += loss.item()
 
