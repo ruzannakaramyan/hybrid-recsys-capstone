@@ -9,17 +9,10 @@ class SASRec(nn.Module):
         if self.use_llm:
             llm_dim = llm_embeds.shape[1]
             self.item_embedding = nn.Embedding.from_pretrained(llm_embeds, freeze=False, padding_idx=0)
-            # Better projection: multi-layer with residual-like structure
+            # Simple projection: single layer (less overfitting)
             self.projection = nn.Sequential(
-                nn.Linear(llm_dim, 256),
-                nn.LayerNorm(256),
-                nn.ReLU(),
-                nn.Dropout(p=dropout_rate),
-                nn.Linear(256, 128),
-                nn.LayerNorm(128),
-                nn.ReLU(),
-                nn.Dropout(p=dropout_rate),
-                nn.Linear(128, hidden_dim)
+                nn.Linear(llm_dim, hidden_dim),
+                nn.LayerNorm(hidden_dim)
             )
         else:
             self.item_embedding = nn.Embedding(vocab_size, hidden_dim, padding_idx=0)
