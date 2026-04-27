@@ -1,0 +1,16 @@
+Using device: mps
+Dataset: industrial_and_scientific | Split: test
+Checkpoint: src/grid_search_bpr_industrial_and_scientific_0.pth
+Loading vocab for industrial_and_scientific...
+Users: 50985 | Items: 25755
+Loading model...
+✅ Loaded checkpoint from src/grid_search_bpr_industrial_and_scientific_0.pth
+Evaluating on 50985 users...
+
+==================================================
+✅ TEST SET RESULTS - BPR on industrial_and_scientific
+==================================================
+Hit@10:  0.02422364
+NDCG@10: 0.01208789
+Total users evaluated: 50653
+==================================================

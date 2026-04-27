@@ -79,6 +79,7 @@ def main():
     parser.add_argument("--k", type=int, default=10)
     parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--checkpoint", type=str, default=None)
+    parser.add_argument("--hidden_dim", type=int, default=64)
     args = parser.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -96,7 +97,7 @@ def main():
         num_items, num_users = len(item_vocab) + 1, len(user_vocab)
         checkpoint_path = args.checkpoint or os.path.join(script_dir, f"bpr_{args.dataset}.pth")
         state_dict = torch.load(checkpoint_path, map_location=device)
-        model = BPRMF(num_users=num_users, num_items=num_items, hidden_dim=64).to(device)
+        model = BPRMF(num_users=num_users, num_items=num_items, hidden_dim=args.hidden_dim).to(device)
         model.load_state_dict(state_dict)
 
         eval_dataset = BPREvalDataset(eval_csv, user_vocab, item_vocab)

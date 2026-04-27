@@ -1,0 +1,16 @@
+Using device: mps
+Dataset: cell_phones_and_accessories | Split: test
+Checkpoint: src/grid_search_bpr_cell_phones_and_accessories_4.pth
+Loading vocab for cell_phones_and_accessories...
+Users: 380999 | Items: 110784
+Loading model...
+✅ Loaded checkpoint from src/grid_search_bpr_cell_phones_and_accessories_4.pth
+Evaluating on 380999 users...
+
+==================================================
+✅ TEST SET RESULTS - BPR on cell_phones_and_accessories
+==================================================
+Hit@10:  0.00069304
+NDCG@10: 0.00040163
+Total users evaluated: 378044
+==================================================

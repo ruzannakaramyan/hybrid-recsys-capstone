@@ -53,8 +53,14 @@ An advanced reranking strategy where the LLM is forced to identify a **User Pers
    Files required: `Video_Games.train.csv.gz`, `Industrial_and_Scientific.train.csv.gz`, etc.
    Run `src/generate_embeddings.py` to recreate LLM item vectors.
 
-3. **Running Evaluations:**
-   Each phase has a corresponding `.sh` script in the root directory. Results will be logged to the command line and saved to the `results/` folder.
+3. **Reproducing Measurements:**
+   To verify the metrics in the `results/` folder, run these commands:
+
+   - **TopPop:** `.venv/bin/python src/evaluate_baselines.py --model_type toppop --dataset <name> --split test`
+   - **BPR:** `.venv/bin/python src/evaluate_baselines.py --model_type bpr --dataset <name> --split test --checkpoint src/bpr_<name>_best.pth`
+   - **XGBoost:** `.venv/bin/python src/evaluate_xgboost.py --dataset <name> --split test`
+   - **SASRec Baseline:** `.venv/bin/python src/evaluate_sasrec.py --dataset <name> --checkpoint src/sasrec_<name>_baseline_best.pth`
+   - **SASRec + LLM:** `.venv/bin/python src/evaluate_sasrec.py --dataset <name> --checkpoint src/sasrec_<name>_llm_best.pth --use_llm_embeddings`
 
 ---
 
