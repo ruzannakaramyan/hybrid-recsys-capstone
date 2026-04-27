@@ -1,3 +1,0 @@
-Evaluated samples: 50653
-Hit@10:  0.01537915
-NDCG@10: 0.00785492

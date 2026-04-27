@@ -1,0 +1,25 @@
+Loading data for cell_phones_and_accessories...
+Splitting data...
+
+Starting Grid Search for cell_phones_and_accessories...
+
+--- Testing: depth=4, lr=0.1, n_estimators=100 ---
+Validation AUC: 0.9833
+
+--- Testing: depth=4, lr=0.1, n_estimators=300 ---
+Validation AUC: 0.9835
+
+--- Testing: depth=6, lr=0.1, n_estimators=100 ---
+Validation AUC: 0.9835
+
+--- Testing: depth=6, lr=0.1, n_estimators=300 ---
+Validation AUC: 0.9837
+
+--- Testing: depth=8, lr=0.1, n_estimators=100 ---
+Validation AUC: 0.9836
+
+--- Testing: depth=8, lr=0.1, n_estimators=300 ---
+Validation AUC: 0.9837
+
+🏆 Best Params: (8, 0.1, 300) with AUC: 0.9837
+Best model saved to /Users/rkaramyan/hybrid_recsys_capstone/src/xgboost_pure_cell_phones_and_accessories_best.json

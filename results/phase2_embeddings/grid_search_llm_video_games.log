@@ -1,0 +1,47 @@
+============================================================
+LLM GRID SEARCH - video_games
+Embeddings: data/item_embeddings_video_games.pt
+Trials: 6
+Freeze LLM for first 5 epochs
+============================================================
+
+============================================================
+LLM Trial 1/6
+Config: {'hidden_dim': 64, 'num_heads': 4, 'num_layers': 2, 'dropout': 0.2, 'max_seq_len': 25, 'learning_rate': 0.001}
+============================================================
+❌ Exception in LLM Trial 1: [Errno 2] No such file or directory: 'python'
+
+============================================================
+LLM Trial 2/6
+Config: {'hidden_dim': 64, 'num_heads': 2, 'num_layers': 2, 'dropout': 0.2, 'max_seq_len': 25, 'learning_rate': 0.0005}
+============================================================
+❌ Exception in LLM Trial 2: [Errno 2] No such file or directory: 'python'
+
+============================================================
+LLM Trial 3/6
+Config: {'hidden_dim': 64, 'num_heads': 4, 'num_layers': 3, 'dropout': 0.2, 'max_seq_len': 25, 'learning_rate': 0.001}
+============================================================
+❌ Exception in LLM Trial 3: [Errno 2] No such file or directory: 'python'
+
+============================================================
+LLM Trial 4/6
+Config: {'hidden_dim': 64, 'num_heads': 2, 'num_layers': 2, 'dropout': 0.2, 'max_seq_len': 50, 'learning_rate': 0.001}
+============================================================
+❌ Exception in LLM Trial 4: [Errno 2] No such file or directory: 'python'
+
+============================================================
+LLM Trial 5/6
+Config: {'hidden_dim': 64, 'num_heads': 2, 'num_layers': 3, 'dropout': 0.2, 'max_seq_len': 25, 'learning_rate': 0.001}
+============================================================
+❌ Exception in LLM Trial 5: [Errno 2] No such file or directory: 'python'
+
+============================================================
+LLM Trial 6/6
+Config: {'hidden_dim': 64, 'num_heads': 4, 'num_layers': 2, 'dropout': 0.3, 'max_seq_len': 50, 'learning_rate': 0.001}
+============================================================
+❌ Exception in LLM Trial 6: [Errno 2] No such file or directory: 'python'
+
+============================================================
+LLM Grid Search Complete!
+Results: grid_search_llm_video_games.csv
+============================================================

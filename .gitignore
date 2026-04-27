@@ -26,7 +26,11 @@ src/*.pt
 src/grid_search_*.pth
 src/bpr_*.pth
 src/sasrec_*.pth
-src/*.json
+# src/*.json (Removed to allow xgboost best parameters)
+
+# Project specific results and logs
+!results/
+!src/xgboost_pure_*.json
 
 # Logs (keep structure, ignore content if needed, but we'll include key ones)
 # Logs are included for documentation

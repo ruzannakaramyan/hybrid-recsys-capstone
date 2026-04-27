@@ -1,0 +1,107 @@
+==========================================
+LLM Reranker Evaluation
+==========================================
+
+Dataset: cell_phones_and_accessories
+Stratified samples: 2000
+
+Base model: src/sasrec_cell_phones_llm_simple.pth
+
+==========================================
+1. Base Model (NO LLM Reranker)
+==========================================
+/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py:515: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/NestedTensorImpl.cpp:182.)
+  output = torch._nested_tensor_from_mask(
+Loading base model from src/sasrec_cell_phones_llm_simple.pth
+✅ Loaded LLM embeddings: torch.Size([110784, 384])
+✅ Base model loaded
+
+Evaluating on cell_phones_and_accessories test set...
+Applying stratified sampling: 2000 / 380999 users
+Sampled 2000 users
+Evaluated 100 users... Hit@10 so far: 0.0000
+Evaluated 200 users... Hit@10 so far: 0.0050
+Evaluated 300 users... Hit@10 so far: 0.0100
+Evaluated 400 users... Hit@10 so far: 0.0100
+Evaluated 500 users... Hit@10 so far: 0.0141
+Evaluated 600 users... Hit@10 so far: 0.0167
+Evaluated 700 users... Hit@10 so far: 0.0201
+Evaluated 800 users... Hit@10 so far: 0.0201
+Evaluated 900 users... Hit@10 so far: 0.0190
+Evaluated 1000 users... Hit@10 so far: 0.0221
+Evaluated 1100 users... Hit@10 so far: 0.0228
+Evaluated 1200 users... Hit@10 so far: 0.0226
+Evaluated 1300 users... Hit@10 so far: 0.0216
+Evaluated 1400 users... Hit@10 so far: 0.0223
+Evaluated 1500 users... Hit@10 so far: 0.0235
+Evaluated 1600 users... Hit@10 so far: 0.0245
+Evaluated 1700 users... Hit@10 so far: 0.0260
+Evaluated 1800 users... Hit@10 so far: 0.0252
+Evaluated 1900 users... Hit@10 so far: 0.0254
+Evaluated 2000 users... Hit@10 so far: 0.0252
+
+==================================================
+Dataset: cell_phones_and_accessories
+Base Model: sasrec_cell_phones_llm_simple.pth
+LLM Reranker: Disabled
+Evaluated samples: 1988
+Hit@10: 0.02515091
+NDCG@10: 0.01335946
+==================================================
+
+==========================================
+2. With LLM Reranker
+==========================================
+/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py:515: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/NestedTensorImpl.cpp:182.)
+  output = torch._nested_tensor_from_mask(
+Loading base model from src/sasrec_cell_phones_llm_simple.pth
+✅ Loaded LLM embeddings: torch.Size([110784, 384])
+✅ Base model loaded
+Loading LLM: HuggingFaceTB/SmolLM2-135M-Instruct
+✅ LLM loaded successfully
+
+Evaluating on cell_phones_and_accessories test set...
+Applying stratified sampling: 2000 / 380999 users
+Sampled 2000 users
+Evaluated 100 users... Hit@10 so far: 0.0000
+Evaluated 200 users... Hit@10 so far: 0.0050
+Evaluated 300 users... Hit@10 so far: 0.0100
+Evaluated 400 users... Hit@10 so far: 0.0100
+Evaluated 500 users... Hit@10 so far: 0.0141
+Evaluated 600 users... Hit@10 so far: 0.0167
+Evaluated 700 users... Hit@10 so far: 0.0201
+Evaluated 800 users... Hit@10 so far: 0.0201
+Evaluated 900 users... Hit@10 so far: 0.0190
+Evaluated 1000 users... Hit@10 so far: 0.0221
+Evaluated 1100 users... Hit@10 so far: 0.0228
+Evaluated 1200 users... Hit@10 so far: 0.0226
+Evaluated 1300 users... Hit@10 so far: 0.0216
+Evaluated 1400 users... Hit@10 so far: 0.0223
+Evaluated 1500 users... Hit@10 so far: 0.0235
+Evaluated 1600 users... Hit@10 so far: 0.0245
+Evaluated 1700 users... Hit@10 so far: 0.0260
+Evaluated 1800 users... Hit@10 so far: 0.0252
+Evaluated 1900 users... Hit@10 so far: 0.0254
+Evaluated 2000 users... Hit@10 so far: 0.0252
+
+==================================================
+Dataset: cell_phones_and_accessories
+Base Model: sasrec_cell_phones_llm_simple.pth
+LLM Reranker: Enabled
+Evaluated samples: 1988
+Hit@10: 0.02515091
+NDCG@10: 0.01342430
+==================================================
+
+==========================================
+Evaluation Complete!
+==========================================
+Stratified sampling: 2000 users (scientifically valid)
+Results saved to:
+  - test_reranker_cell_phones_and_accessories_base.txt
+  - test_reranker_cell_phones_and_accessories_llm.txt

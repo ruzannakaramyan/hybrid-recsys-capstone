@@ -1,9 +1,0 @@
-/Users/rkaramyan/hybrid_recsys_capstone/.venv/lib/python3.9/site-packages/torch/nn/modules/transformer.py:515: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/NestedTensorImpl.cpp:182.)
-  output = torch._nested_tensor_from_mask(
-Using device: cpu
-Dataset: industrial_and_scientific | Split: test
-Checkpoint: src/grid_search_industrial_and_scientific_0.pth
-Evaluated samples: 50653
-Hits@10 (raw): 2076
-Hit@10:  0.04098474
-NDCG@10: 0.02107001
