@@ -1,7 +1,8 @@
 #!/bin/bash
 # Run API-based LLM Reranker Evaluation
 
-cd /Users/rkaramyan/hybrid_recsys_capstone
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
 
 echo "=========================================="
 echo "API LLM Reranker Evaluation (GPT-4o-mini)"
