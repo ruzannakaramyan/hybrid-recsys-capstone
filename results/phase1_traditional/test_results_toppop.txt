@@ -1,0 +1,8 @@
+### TopPop (Most Popular) - Full Test Set Results
+Generated on: 2026-04-27
+
+| Dataset | Hit@10 | NDCG@10 |
+| :--- | :---: | :---: |
+| Video Games | 0.02157 | 0.01013 |
+| Industrial & Scientific | 0.01538 | 0.00785 |
+| Cell Phones | 0.00728 | 0.00379 |

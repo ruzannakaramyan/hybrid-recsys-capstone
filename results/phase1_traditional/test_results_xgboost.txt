@@ -1,0 +1,8 @@
+### XGBoost Model - Full Test Set Results
+Generated on: 2026-04-27
+
+| Dataset | Hit@10 | NDCG@10 |
+| :--- | :---: | :---: |
+| Video Games | 0.0244 | 0.0125 |
+| Industrial & Scientific | 0.0157 | 0.0081 |
+| Cell Phones | 0.0084 | 0.0040 |

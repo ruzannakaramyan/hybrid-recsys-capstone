@@ -1,0 +1,8 @@
+### BPR Model - Full Test Set Results
+Generated on: 2026-04-27
+
+| Dataset | Hit@10 | NDCG@10 |
+| :--- | :---: | :---: |
+| Video Games | 0.0295 | 0.0151 |
+| Industrial & Scientific | 0.0242 | 0.0121 |
+| Cell Phones | 0.0007 | 0.0004 |
