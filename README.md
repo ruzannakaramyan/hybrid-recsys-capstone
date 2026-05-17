@@ -1,13 +1,12 @@
-# Hybrid RecSys: LLM-Augmented Recommendation Systems
+# Building and Evaluation of Recommendation System Using Large Language Models (LLMs)
 
-## 🎯 Project Objective
-This repository contains the graduate research project: **"Hybrid Recommendation Systems: Leveraging Generative LLM Reasoning and Semantic Embeddings for Sequential Prediction."**
+## Project Objective
 
-The primary objective of this project is to evaluate whether Large Language Models (LLMs) can improve sequential recommendation systems. The project is structured into four research phases that transition from traditional collaborative filtering (BPR, XGBoost) to Transformer-based architectures (SASRec) initialized with S-BERT metadata embeddings, and finally to state-of-the-art Generative LLM Reranking (Listwise and Profile-Augmented Reasoning via GPT-4o-mini).
+The goal of recommendation systems is to predict users’ next interaction by taking into account their purchase/interaction history. The main issue is that traditional approaches fail to forecast the right items because they treat items as meaningless labels without semantic understanding of what each item really is. Moreover, in case of a new user with no prior history, traditional recommender systems fail to predict the right item, leading to the “cold-start” problem. This study investigates whether Large Language Models (LLMs) can overcome this issue by incorporating semantic understanding into recommendation systems. The research was done in four phases, transitioning from traditional baselines (TopPop, BPR, and SASRec) to advanced LLM-powered strategies, including embedding initialization, candidate reranking, and GPT-4 based user profiling.  This study used three Amazon datasets (Industrial \& Scientific, Video games, Cell Phones \& Accessories) and delivered significant enhancements, yielding gains exceeding 100\% improvement compared to the baseline method in some scenarios, showing LLMs ability to make recommendations more accurate. Moreover, relatively simple LLM strategies proved to be superior to more complex integration methods, suggesting that companies can gain the benefits of LLMs without wasting enormous computational resources.
 
 ---
 
-## 💻 Environment and Dependencies
+##  Environment and Dependencies
 
 **Computational Environment:**
 - **OS:** macOS / Linux (Tested on Apple Silicon MPS and CUDA)
@@ -34,7 +33,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🛠️ Repository Structure
+##  Repository Structure
 
 - **`src/`**: Core modeling, training logic, and saved checkpoints (`.pth` and `.json`). Includes SASRec, BPR, XGBoost, and LLM Rerankers.
 - **`results/`**: Organized directory containing all final experimental logs, grid search CSVs, and performance metrics.
@@ -47,10 +46,10 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Reproducibility Instructions
+## Reproducibility Instructions
 
 ### One-Command Reproduction Rule
-To satisfy strict reproducibility requirements, the main results of the paper can be reproduced using a **single command**. This script evaluates all deterministic and generative models across the `Industrial and Scientific`, `Video Games`, and `Cell Phones and Accessories` datasets.
+The main results of the paper can be reproduced using a **single command**. This script evaluates all deterministic and generative models across the `Industrial and Scientific`, `Video Games`, and `Cell Phones and Accessories` datasets.
 
 ```bash
 # Evaluate all models on all datasets and log to reproduction_log.txt
@@ -69,7 +68,7 @@ If you wish to run individual training or evaluation scripts manually, you can e
 
 ---
 
-## 📊 Generating Figures and Tables
+## Generating Figures and Tables
 
 The figures and tables presented in the final paper (including waterfall lift charts, paired evaluation bar plots, latency-accuracy trade-offs, and dataset statistics) are completely reproducible.
 
@@ -80,7 +79,7 @@ The figures and tables presented in the final paper (including waterfall lift ch
 
 ---
 
-## 📖 Key Findings
+## Key Findings
 
 - LLM Embeddings (Phase 2) are the Clear Winner: Initializing SASRec with LLM-generated semantic embeddings was the most consistently successful approach. It outperformed all other methods—including real-time API reranking—and more than doubled the NDCG@10 scores for the Video Games (+100.8%) and Cell Phones (+110.5%) datasets compared to the baseline.
 - Traditional Models Struggle with Context: Classic ID-only models like TopPop and BPR performed poorly (Hit@10 < 0.005) because they ignore sequence order and personal taste. XGBoost improved performance using tailored features but still failed to capture temporal user patterns.
