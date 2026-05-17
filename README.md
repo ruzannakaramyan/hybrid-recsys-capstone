@@ -1,69 +1,88 @@
 # Hybrid RecSys: LLM-Augmented Recommendation Systems
 
+## 🎯 Project Objective
 This repository contains the graduate research project: **"Hybrid Recommendation Systems: Leveraging Generative LLM Reasoning and Semantic Embeddings for Sequential Prediction."**
 
-The project is structured into four distinct research phases, moving from traditional collaborative filtering to state-of-the-art identity-aware generative reranking.
+The primary objective of this project is to evaluate whether Large Language Models (LLMs) can improve sequential recommendation systems. The project is structured into four research phases that transition from traditional collaborative filtering (BPR, XGBoost) to Transformer-based architectures (SASRec) initialized with S-BERT metadata embeddings, and finally to state-of-the-art Generative LLM Reranking (Listwise and Profile-Augmented Reasoning via GPT-4o-mini).
 
 ---
 
-## 🛠️ Repository structure
+## 💻 Environment and Dependencies
 
-- **`src/`**: Core modeling and training logic (SASrec, BPR, XGBoost, and LLM Rerankers).
+**Computational Environment:**
+- **OS:** macOS / Linux (Tested on Apple Silicon MPS and CUDA)
+- **Python Version:** Python 3.9+ (Specifically 3.9.6)
+
+**Required Packages and Libraries:**
+All required packages are defined in `requirements.txt`. Key dependencies include:
+- `torch` (PyTorch for neural recommendation models)
+- `xgboost` (For gradient boosted tree baselines)
+- `pandas` & `numpy` (For data manipulation)
+- `openai` (For GPT-4o-mini API calls)
+- `sentence-transformers` (For generating item semantic embeddings)
+- `jupyter` / `matplotlib` / `seaborn` (For visualizations)
+
+**Setup Instructions:**
+```bash
+# 1. Create a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 2. Install dependencies
+pip install -r requirements.txt
+```
+
+---
+
+## 🛠️ Repository Structure
+
+- **`src/`**: Core modeling, training logic, and saved checkpoints (`.pth` and `.json`). Includes SASRec, BPR, XGBoost, and LLM Rerankers.
 - **`results/`**: Organized directory containing all final experimental logs, grid search CSVs, and performance metrics.
-- **`data/`**: Processed interaction data and pre-computed S-BERT embeddings.
+- **`data/`**: 
+  - `processed/`: Formatted train/test/valid `.csv` splits and `.parquet` files.
+  - `embeddings/`: Pre-computed PyTorch item embeddings (`.pt`).
+  - `metadata/`: Raw JSONL metadata for products.
 - **`notebooks/`**: EDA and visualization scratchpads.
+- **`reproduce_results.sh`**: One-command reproduction script.
 
 ---
 
-## 🚀 Research Phases
+## 🚀 Reproducibility Instructions
 
-### Phase 1: Traditional Baselines
-Evaluates non-LLM models including TopPop, Bayesian Personalized Ranking (BPR), and Gradient Boosted Trees (XGBoost).
-- **Run:** `./run_xgboost_pipeline.sh`
-- **Result:** Found that ID-only models struggle with extreme item density (Cell Phones).
+### One-Command Reproduction Rule
+To satisfy strict reproducibility requirements, the main results of the paper can be reproduced using a **single command**. This script evaluates all deterministic and generative models across the `Industrial and Scientific`, `Video Games`, and `Cell Phones and Accessories` datasets.
 
-### Phase 2: LLM Embedding Initialization
-Initializes the SASRec transformer model items using **Sentence-BERT (S-BERT)** embeddings generated from product metadata.
-- **Run:** `./run_sasrec_llm_best.sh`
-- **Impact:** Achieved a **12,000% Hit Rate improvement** over traditional BPR for large datasets.
+```bash
+# Evaluate all models on all datasets and log to reproduction_log.txt
+./reproduce_results.sh
+```
+*(Note: Phase 3 and Phase 4 LLM rerankers require the `OPENAI_API_KEY` environment variable to be exported. The script evaluates 2000 samples for Phase 3 and 250 samples for Phase 4 to perfectly mirror the paper's results).*
 
-### Phase 3: Generative Listwise Reranking
-Implements a two-stage pipeline: SASRec retrieval followed by **GPT-4o-mini** listwise reranking with Chain-of-Thought (CoT).
-- **Run:** `./run_api_reranker.sh <dataset>`
-- **Prerequisite:** Set `EXPORT OPENAI_API_KEY='your-key'`
+### How to Run the Code Manually
+If you wish to run individual training or evaluation scripts manually, you can execute the Python modules inside `src/`. For example:
 
-### Phase 4: Profile-Augmented Reasoning (SOTA)
-An advanced reranking strategy where the LLM is forced to identify a **User Persona** before performing the ranking task.
-- **Run:** `./run_profile_reranker.sh <dataset>`
-- **Impact:** Achieved a **+61% NDCG boost** for technical Industrial & Scientific domains.
+- **Generate Embeddings:** `python src/generate_embeddings.py --dataset video_games`
+- **Evaluate TopPop:** `python src/evaluate_baselines.py --model_type toppop --dataset video_games --split test`
+- **Evaluate XGBoost:** `python src/evaluate_xgboost.py --dataset video_games --split test`
+- **Train SASRec:** `python src/sasrec_train.py --dataset video_games --use_llm_embeddings`
+- **Run Persona Reranker:** `python src/llm_profile_reranker.py --dataset video_games --base_checkpoint src/sasrec_video_games_llm_v3_correct.pth --use_llm_embeddings`
 
 ---
 
-## 📦 Reproducibility Instructions
+## 📊 Generating Figures and Tables
 
-1. **Environment Setup:**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
+The figures and tables presented in the final paper (including waterfall lift charts, paired evaluation bar plots, latency-accuracy trade-offs, and dataset statistics) are completely reproducible.
 
-2. **Data Preparation:**
-   Raw Amazon Review Data (2023) should be placed in the `data/` directory.
-   Files required: `Video_Games.train.csv.gz`, `Industrial_and_Scientific.train.csv.gz`, etc.
-   Run `src/generate_embeddings.py` to recreate LLM item vectors.
-
-3. **Reproducing Measurements:**
-   To verify the metrics in the `results/` folder, run these commands:
-
-   - **TopPop:** `.venv/bin/python src/evaluate_baselines.py --model_type toppop --dataset <name> --split test`
-   - **BPR:** `.venv/bin/python src/evaluate_baselines.py --model_type bpr --dataset <name> --split test --checkpoint src/bpr_<name>_best.pth`
-   - **XGBoost:** `.venv/bin/python src/evaluate_xgboost.py --dataset <name> --split test`
-   - **SASRec Baseline:** `.venv/bin/python src/evaluate_sasrec.py --dataset <name> --checkpoint src/sasrec_<name>_baseline_best.pth`
-   - **SASRec + LLM:** `.venv/bin/python src/evaluate_sasrec.py --dataset <name> --checkpoint src/sasrec_<name>_llm_best.pth --use_llm_embeddings`
+1. **Tables (Metrics):** The raw numbers used to build the tables are generated by running `./reproduce_results.sh` (or found in the `results/` directory logs).
+2. **Figures (Visualizations):** All plots and charts are generated via Jupyter Notebooks. 
+   - To recreate the plots, open `notebooks/results_visualizations.ipynb` and `notebooks/EDA_Visualizations.ipynb`.
+   - Run all cells in the notebook. The notebooks will read the `.csv` logs from the `results/` folder and output high-quality PNG/SVG images into the `images/` directory.
 
 ---
 
-## 📖 Key Findings
-Full metrics table available in `results/PHASE4_PROFILE/` and summarized in the final thesis report. 
-Identity-aware reasoning (Phase 4) proved to be the most powerful LLM application for technical product discovery.
+## 📖 Key Findings (Research Phases)
+
+- **Phase 1 (Traditional Baselines):** Non-LLM models like BPR and XGBoost struggle with extreme item sparsity, particularly in the Cell Phones dataset.
+- **Phase 2 (LLM Embedding Initialization):** Injecting S-BERT semantic vectors into SASRec yielded up to a 12,000% Hit Rate improvement over ID-only BPR.
+- **Phase 3 (Generative Listwise Reranking):** Prompting GPT-4o-mini to rerank SASRec's top candidates using Chain-of-Thought reasoning successfully aligned contextual features.
+- **Phase 4 (Profile-Augmented Reasoning):** Forcing the LLM to formulate a user "Persona" before ranking acts as a powerful grounding mechanism, boosting NDCG by +61% for highly technical domains.

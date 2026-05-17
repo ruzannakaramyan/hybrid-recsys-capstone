@@ -40,9 +40,9 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(script_dir, '..', 'data')
     
-    train_file = os.path.join(data_dir, f'train_{dataset_name}_merged.csv')
-    meta_file = os.path.join(data_dir, meta_mapping[dataset_name])
-    output_file = os.path.join(data_dir, f'xgboost_train_{dataset_name}.parquet')
+    train_file = os.path.join(data_dir, 'processed', f'train_{dataset_name}_merged.csv')
+    meta_file = os.path.join(data_dir, 'metadata', meta_mapping[dataset_name])
+    output_file = os.path.join(data_dir, 'processed', f'xgboost_train_{dataset_name}.parquet')
 
     if not os.path.exists(train_file):
         print(f"ERROR: Train file {train_file} not found.")

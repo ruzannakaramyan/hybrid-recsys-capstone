@@ -55,7 +55,7 @@ def main():
 
     # 2. Load Dataset
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    train_file = os.path.join(script_dir, "..", "data", f"train_{args.dataset}_merged.csv")
+    train_file = os.path.join(script_dir, "..", "data", "processed", f"train_{args.dataset}_merged.csv")
     print(f"Loading dataset: {args.dataset}")
     train_dataset = SequentialDataset(train_file, max_seq_len=args.max_seq_len)
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
@@ -67,7 +67,7 @@ def main():
 
     llm_embeds = None
     if args.use_llm_embeddings:
-        pt_file = os.path.join(script_dir, "..", "data", f"item_embeddings_{args.dataset}.pt")
+        pt_file = os.path.join(script_dir, "..", "data", "embeddings", f"item_embeddings_{args.dataset}.pt")
         if not os.path.exists(pt_file):
             raise FileNotFoundError(f"Missing LLM embeddings: {pt_file} (Run src/generate_embeddings.py first)")
         print(f"Loading LLM Semantic Vectors from {pt_file}...")
@@ -93,7 +93,7 @@ def main():
     best_hit = 0.0
     patience_counter = 0
 
-    valid_file = os.path.join(script_dir, "..", "data", f"valid_{args.dataset}_merged.csv")
+    valid_file = os.path.join(script_dir, "..", "data", "processed", f"valid_{args.dataset}_merged.csv")
     valid_dataset = EvalDataset(
         valid_file, 
         item_vocab=train_dataset.item_vocab, 

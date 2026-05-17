@@ -33,8 +33,8 @@ def main():
     print(f"Using device: {device}")
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    train_file = os.path.join(script_dir, "..", "data", f"train_{args.dataset}_merged.csv")
-    valid_file = os.path.join(script_dir, "..", "data", f"valid_{args.dataset}_merged.csv")
+    train_file = os.path.join(script_dir, "..", "data", "processed", f"train_{args.dataset}_merged.csv")
+    valid_file = os.path.join(script_dir, "..", "data", "processed", f"valid_{args.dataset}_merged.csv")
 
     # 1. Load Vocab & Datasets
     print(f"Loading vocab for {args.dataset}...")
@@ -109,7 +109,7 @@ def main():
         print("\n" + "="*50)
         print("🧪 EVALUATING ON TEST SET")
         print("="*50)
-        test_file = os.path.join(script_dir, "..", "data", f"test_{args.dataset}_merged.csv")
+        test_file = os.path.join(script_dir, "..", "data", "processed", f"test_{args.dataset}_merged.csv")
         if os.path.exists(test_file):
             test_dataset = BPREvalDataset(test_file, user_vocab, item_vocab)
             test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)

@@ -61,8 +61,8 @@ def main():
         'cell_phones_and_accessories': 'meta_Cell_Phones_and_Accessories.jsonl.gz'
     }
     
-    eval_file = os.path.join(data_dir, f'{args.split}_{dataset_name}_merged.csv')
-    meta_file = os.path.join(data_dir, meta_mapping[dataset_name])
+    eval_file = os.path.join(data_dir, 'processed', f'{args.split}_{dataset_name}_merged.csv')
+    meta_file = os.path.join(data_dir, 'metadata', meta_mapping[dataset_name])
     model_path = os.path.join(script_dir, f'xgboost_pure_{dataset_name}_best.json')
     
     if not os.path.exists(model_path):
@@ -102,7 +102,7 @@ def main():
     meta_df['main_cat_code'] = meta_df['main_category'].astype('category').cat.codes
     meta_df['store_code'] = meta_df['store'].astype('category').cat.codes
     
-    train_file = os.path.join(data_dir, f'train_{dataset_name}_merged.csv')
+    train_file = os.path.join(data_dir, 'processed', f'train_{dataset_name}_merged.csv')
     train_df = pd.read_csv(train_file)
     popularity_map = train_df['parent_asin'].value_counts().to_dict()
     meta_df['global_popularity'] = meta_df['parent_asin'].map(popularity_map).fillna(0)

@@ -128,8 +128,8 @@ def main():
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     repo_root = os.path.join(script_dir, "..")
-    train_csv = os.path.join(repo_root, "data", f"train_{args.dataset}_merged.csv")
-    eval_csv = os.path.join(repo_root, "data", f"{args.split}_{args.dataset}_merged.csv")
+    train_csv = os.path.join(repo_root, "data", "processed", f"train_{args.dataset}_merged.csv")
+    eval_csv = os.path.join(repo_root, "data", "processed", f"{args.split}_{args.dataset}_merged.csv")
     default_ckpt_name = f"sasrec_{args.dataset}.pth"
     checkpoint_path = args.checkpoint or os.path.join(script_dir, default_ckpt_name)
 
@@ -163,7 +163,7 @@ def main():
     eval_loader = DataLoader(eval_dataset, batch_size=args.batch_size, shuffle=False)
     llm_embeds = None
     if args.use_llm_embeddings:
-        pt_file = os.path.join(script_dir, "..", "data", f"item_embeddings_{args.dataset}.pt")
+        pt_file = os.path.join(script_dir, "..", "data", "embeddings", f"item_embeddings_{args.dataset}.pt")
         if not os.path.exists(pt_file):
             raise FileNotFoundError(f"Missing LLM embeddings: {pt_file} (Run src/generate_embeddings.py first)")
         print(f"Loading LLM Semantic Vectors from {pt_file}...")

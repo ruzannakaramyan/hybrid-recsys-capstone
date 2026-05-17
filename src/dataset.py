@@ -51,7 +51,7 @@ class SequentialDataset(Dataset):
 # --- Quick Test ---
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_dir, '..', 'data', 'train_industrial_and_scientific_merged.csv')
+    file_path = os.path.join(script_dir, '..', 'data', 'processed', 'train_industrial_and_scientific_merged.csv')
     
     print("Building dataset... (this takes a few seconds to sort the vocabulary)")
     dataset = SequentialDataset(file_path, max_seq_len=25)

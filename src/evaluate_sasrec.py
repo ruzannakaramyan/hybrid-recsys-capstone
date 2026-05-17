@@ -25,8 +25,8 @@ def main():
     print(f"Using device: {device}")
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    train_file = os.path.join(script_dir, "..", "data", f"train_{args.dataset}_merged.csv")
-    eval_file = os.path.join(script_dir, "..", "data", f"{args.split}_{args.dataset}_merged.csv")
+    train_file = os.path.join(script_dir, "..", "data", "processed", f"train_{args.dataset}_merged.csv")
+    eval_file = os.path.join(script_dir, "..", "data", "processed", f"{args.split}_{args.dataset}_merged.csv")
 
     print(f"Building vocab from {train_file}...")
     item_vocab = build_vocab_from_train(train_file)
@@ -34,7 +34,7 @@ def main():
 
     llm_embeds = None
     if args.use_llm_embeddings:
-        pt_file = os.path.join(script_dir, "..", "data", f"item_embeddings_{args.dataset}.pt")
+        pt_file = os.path.join(script_dir, "..", "data", "embeddings", f"item_embeddings_{args.dataset}.pt")
         print(f"Loading LLM embeddings from {pt_file}...")
         llm_embeds = torch.load(pt_file, map_location=device)
 

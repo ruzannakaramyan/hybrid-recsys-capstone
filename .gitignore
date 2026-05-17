@@ -14,9 +14,11 @@ venv/
 ENV/
 
 # Data files (too large)
-data/*.parquet
-data/*.csv
-data/*.jsonl.gz
+data/**/*.parquet
+data/**/*.csv
+data/**/*.csv.gz
+data/**/*.jsonl.gz
+data/**/*.pt
 
 # Model checkpoints (too large)
 *.pth

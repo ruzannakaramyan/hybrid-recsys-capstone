@@ -15,8 +15,8 @@ def main():
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(script_dir, "..", "data")
-    train_file = os.path.join(data_dir, f"train_{args.dataset}_merged.csv")
-    out_file = os.path.join(data_dir, f"item_embeddings_{args.dataset}.pt")
+    train_file = os.path.join(data_dir, "processed", f"train_{args.dataset}_merged.csv")
+    out_file = os.path.join(data_dir, "embeddings", f"item_embeddings_{args.dataset}.pt")
 
     if not os.path.exists(train_file):
         raise FileNotFoundError(f"Training data not found: {train_file}")

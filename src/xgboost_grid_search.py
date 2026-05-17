@@ -14,7 +14,7 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(script_dir, '..', 'data')
     
-    input_file = os.path.join(data_dir, f'xgboost_train_{dataset_name}.parquet')
+    input_file = os.path.join(data_dir, 'processed', f'xgboost_train_{dataset_name}.parquet')
     
     if not os.path.exists(input_file):
         print(f"ERROR: Data file {input_file} not found. Did you run src/prepare_xgboost_data.py --dataset {dataset_name}?")
@@ -84,7 +84,7 @@ def main():
     
     # 5. Save Results
     results_df = pd.DataFrame(results)
-    results_df.to_csv(os.path.join(data_dir, f'xgboost_grid_results_{dataset_name}.csv'), index=False)
+    results_df.to_csv(os.path.join(data_dir, 'processed', f'xgboost_grid_results_{dataset_name}.csv'), index=False)
     
     # 6. Save Best Model
     model_path = os.path.join(script_dir, f'xgboost_pure_{dataset_name}_best.json')

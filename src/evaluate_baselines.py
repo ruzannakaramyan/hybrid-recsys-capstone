@@ -84,8 +84,8 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    train_csv = os.path.join(script_dir, "..", "data", f"train_{args.dataset}_merged.csv")
-    eval_csv = os.path.join(script_dir, "..", "data", f"{args.split}_{args.dataset}_merged.csv")
+    train_csv = os.path.join(script_dir, "..", "data", "processed", f"train_{args.dataset}_merged.csv")
+    eval_csv = os.path.join(script_dir, "..", "data", "processed", f"{args.split}_{args.dataset}_merged.csv")
 
     temp_seq = SequentialDataset(train_csv, max_seq_len=25)
     item_vocab = temp_seq.item_vocab

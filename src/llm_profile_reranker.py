@@ -143,13 +143,13 @@ def stratified_sample(df, n_samples=5000, random_state=42):
 
 
 def load_item_metadata(dataset, script_dir):
-    metadata_path = os.path.join(script_dir, "..", "data", f"metadata_{dataset}.json")
+    metadata_path = os.path.join(script_dir, "..", "data", "metadata", f"metadata_{dataset}.json")
     if os.path.exists(metadata_path):
         with open(metadata_path, 'r') as f:
             return json.load(f)
             
     metadata = {}
-    train_csv = os.path.join(script_dir, "..", "data", f"train_{dataset}_merged.csv")
+    train_csv = os.path.join(script_dir, "..", "data", "processed", f"train_{dataset}_merged.csv")
     if os.path.exists(train_csv):
         df = pd.read_csv(train_csv)
         available_cols = df.columns.tolist()
@@ -166,8 +166,8 @@ def load_item_metadata(dataset, script_dir):
 # --- 4. MAIN EVALUATION ---
 def evaluate_api_reranker(base_model, dataset, device, k=10, rerank_topk=10, max_samples=None):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    train_csv = os.path.join(script_dir, "..", "data", f"train_{dataset}_merged.csv")
-    test_csv = os.path.join(script_dir, "..", "data", f"test_{dataset}_merged.csv")
+    train_csv = os.path.join(script_dir, "..", "data", "processed", f"train_{dataset}_merged.csv")
+    test_csv = os.path.join(script_dir, "..", "data", "processed", f"test_{dataset}_merged.csv")
     
     train_dataset = SequentialDataset(train_csv, max_seq_len=25)
     item_vocab = train_dataset.item_vocab
@@ -289,12 +289,12 @@ def main():
     device = torch.device("cpu")
     print(f"Starting API Reranker for dataset: {args.dataset}")
     
-    train_csv = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", f"train_{args.dataset}_merged.csv")
+    train_csv = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed", f"train_{args.dataset}_merged.csv")
     vocab_size = len(SequentialDataset(train_csv, max_seq_len=25).item_vocab) + 1
     
     llm_embeds = None
     if args.use_llm_embeddings:
-        emb_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", f"item_embeddings_{args.dataset}.pt")
+        emb_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "embeddings", f"item_embeddings_{args.dataset}.pt")
         if os.path.exists(emb_path):
             llm_embeds = torch.load(emb_path, map_location=device)
             
