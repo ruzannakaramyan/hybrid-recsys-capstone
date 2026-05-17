@@ -80,9 +80,9 @@ The figures and tables presented in the final paper (including waterfall lift ch
 
 ---
 
-## 📖 Key Findings (Research Phases)
+## 📖 Key Findings
 
-- **Phase 1 (Traditional Baselines):** Non-LLM models like BPR and XGBoost struggle with extreme item sparsity, particularly in the Cell Phones dataset.
-- **Phase 2 (LLM Embedding Initialization):** Injecting S-BERT semantic vectors into SASRec yielded up to a 12,000% Hit Rate improvement over ID-only BPR.
-- **Phase 3 (Generative Listwise Reranking):** Prompting GPT-4o-mini to rerank SASRec's top candidates using Chain-of-Thought reasoning successfully aligned contextual features.
-- **Phase 4 (Profile-Augmented Reasoning):** Forcing the LLM to formulate a user "Persona" before ranking acts as a powerful grounding mechanism, boosting NDCG by +61% for highly technical domains.
+- LLM Embeddings (Phase 2) are the Clear Winner: Initializing SASRec with LLM-generated semantic embeddings was the most consistently successful approach. It outperformed all other methods—including real-time API reranking—and more than doubled the NDCG@10 scores for the Video Games (+100.8%) and Cell Phones (+110.5%) datasets compared to the baseline.
+- Traditional Models Struggle with Context: Classic ID-only models like TopPop and BPR performed poorly (Hit@10 < 0.005) because they ignore sequence order and personal taste. XGBoost improved performance using tailored features but still failed to capture temporal user patterns.
+- SASRec is a Strong but Limited Foundation: While the base SASRec model successfully tracked sequential user actions using attention mechanisms, it hit a ceiling because it viewed products merely as arbitrary IDs without grasping their deeper meaning.
+- Rerankers Are Highly Dependent on Metadata Quality: The LLM rerankers succeeded on datasets with rich, detailed item descriptions (Video Games and Industrial) but failed significantly on sparse, generic datasets (Cell Phones).
